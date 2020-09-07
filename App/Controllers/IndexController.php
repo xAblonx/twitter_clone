@@ -2,19 +2,25 @@
   namespace App\Controllers;
 
   use MF\Controller\Action;
+  use MF\Model\Container;
+  use App\Models\Info;
+  use App\Models\Produto;
 
   class IndexController extends Action {
 
     public function index() {
 
-      $this->view->dados = array('Sofá', 'Cadeira', 'Cama');
-      $this->render('index');
+      $produto = Container::getModel('Produto');
+      $this->view->dados = $produto->getProdutos();
+      
+      $this->render('index', 'layout1');
     }
 
     public function sobreNos() {
 
-      $this->view->dados = array('Notebook', 'Smartphone');
-      $this->render('sobreNos');
+      $info = Container::getModel('Info');
+      $this->view->dados = $info->getInfo();
+      $this->render('sobreNos', 'layout2');
     }
   }
 ?>
