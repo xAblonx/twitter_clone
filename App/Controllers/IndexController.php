@@ -3,24 +3,47 @@
 
   use MF\Controller\Action;
   use MF\Model\Container;
-  use App\Models\Info;
-  use App\Models\Produto;
 
   class IndexController extends Action {
 
     public function index() {
 
-      $produto = Container::getModel('Produto');
-      $this->view->dados = $produto->getProdutos();
-      
-      $this->render('index', 'layout1');
+      $this->view->login = isset($_GET['login']) ? $_GET['login'] : '';
+      $this->render('index');
     }
 
-    public function sobreNos() {
+    public function inscreverse() {
 
-      $info = Container::getModel('Info');
-      $this->view->dados = $info->getInfo();
-      $this->render('sobreNos', 'layout2');
+      $this->view->usuario = array(
+        'nome' => '',
+        'email' => '',
+        'senha' => ''
+      );
+
+      $this->view->erroCadastro = false;
+      $this->render('inscreverse');
+    }
+
+    public function registrar() {
+      $usuario = Container::getModel('Usuario');
+      $usuario->__set('nome', $_POST['nome']);
+      $usuario->__set('email', $_POST['email']);
+      $usuario->__set('senha', md5($_POST['senha']));
+
+      if($usuario->validarCadastro() && count($usuario->getUsuarioPorEmail()) == 0) {
+        $usuario->salvar();
+        $this->render('cadastro');
+      } else {
+
+        $this->view->usuario = array(
+          'nome' => $_POST['nome'],
+          'email' => $_POST['email'],
+          'senha' => $_POST['senha']
+        );
+
+        $this->view->erroCadastro = true;
+        $this->render('inscreverse');
+      }
     }
   }
 ?>

@@ -11,10 +11,52 @@
         'action' => 'index'
       );
 
-      $routes['sobre_nos'] = array(
-        'route' => '/sobre_nos',
+      $routes['inscreverse'] = array(
+        'route' => '/inscreverse',
         'controller' => 'indexController',
-        'action' => 'sobreNos'
+        'action' => 'inscreverse'
+      );
+
+      $routes['registrar'] = array(
+        'route' => '/registrar',
+        'controller' => 'indexController',
+        'action' => 'registrar'
+      );
+
+      $routes['autenticar'] = array(
+        'route' => '/autenticar',
+        'controller' => 'authController',
+        'action' => 'autenticar'
+      );
+
+      $routes['sair'] = array(
+        'route' => '/sair',
+        'controller' => 'authController',
+        'action' => 'sair'
+      );
+
+      $routes['timeline'] = array(
+        'route' => '/timeline',
+        'controller' => 'appController',
+        'action' => 'timeline'
+      );
+
+      $routes['tweet'] = array(
+        'route' => '/tweet',
+        'controller' => 'appController',
+        'action' => 'tweet'
+      );
+
+      $routes['quem_seguir'] = array(
+        'route' => '/quem_seguir',
+        'controller' => 'appController',
+        'action' => 'quemSeguir'
+      );
+
+      $routes['acao'] = array(
+        'route' => '/acao',
+        'controller' => 'appController',
+        'action' => 'acao'
       );
 
       $this->setRoutes($routes);
