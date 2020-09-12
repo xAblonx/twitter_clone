@@ -14,6 +14,14 @@
       $tweets = $tweet->getAll();
 
       $this->view->tweets = $tweets;
+
+      $usuario = Container::getModel('Usuario');
+      $usuario->__set('id', $_SESSION['id']);
+      $this->view->info_usuario = $usuario->getInfoUsuario();
+      $this->view->total_tweets = $usuario->getTotalTweets();
+      $this->view->total_seguindo = $usuario->getTotalSeguindo();
+      $this->view->total_seguidores = $usuario->getTotalSeguidores();
+
       $this->render('timeline');
     }
 
@@ -40,6 +48,13 @@
 
     public function quemSeguir() {
       $this->validaAutenticacao();
+
+      $usuario = Container::getModel('Usuario');
+      $usuario->__set('id', $_SESSION['id']);
+      $this->view->info_usuario = $usuario->getInfoUsuario();
+      $this->view->total_tweets = $usuario->getTotalTweets();
+      $this->view->total_seguindo = $usuario->getTotalSeguindo();
+      $this->view->total_seguidores = $usuario->getTotalSeguidores();
       
       $pesquisarPor = isset($_GET['pesquisarPor']) ? $_GET['pesquisarPor'] : '';
       $usuarios = array();
@@ -73,6 +88,17 @@
       }
 
       header('Location: /quem_seguir');
+    }
+
+    public function removerTweet() {
+      $this->validaAutenticacao();
+      $id_tweet = $_GET['id_tweet'] ?? '';
+      $tweet = Container::getModel('Tweet');
+      $tweet->__set('id_usuario', $_SESSION['id']);
+      $tweet->__set('id', $id_tweet);
+      $tweet->deleteTweet();
+      
+      header('Location: /timeline');
     }
   }
 ?>
